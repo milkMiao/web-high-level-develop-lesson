@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+  <section id="wrap">
+    <h2 class="title">百度音乐榜单</h2>
+    <ul id="list">
+      <li>
+        <input type="checkbox" class="check" />
+        <span>第一条信息</span>
+        <a href="javascript:;" class="collect">收藏</a>
+        <a href="javascript:;" class="cancelCollect">取消收藏</a>
+        <a href="javascript:;" class="remove">删除</a>
+      </li>
+    </ul>
+    <footer class="footer">
+      <label><input type="checkbox" id="checkAll" />全选/全不选</label>
+      <a href="javascript:;" id="removeAll">删除</a>
+      <input type="text" id="newInfo" value="123" />
+      <a href="javascript:;" id="addAll">添加</a>
+    </footer>
+  </section>
+  <script>
+    // json xml
+    let data = [
+      {
+        id: 1,
+        title: "残酷月光 - 费启鸣",
+        checked: false,
+        collect: true
+      }, {
+        id: 2,
+        title: "兄弟 - 艾热",
+        checked: false,
+        collect: false
+      }, {
+        id: 3,
+        title: "毕生 - 夏增祥",
+        checked: true,
+        collect: true
+      }, {
+        id: 4,
+        title: "公子向北去 - 李春花",
+        checked: false,
+        collect: false
+      }, {
+        id: 5,
+        title: "战场 - 沙漠五子",
+        checked: true,
+        collect: false //是否收藏 true 收藏 false 没有收藏
+      }
+    ];
+
+    //列表数据全选中，全选的复选框默认也选中，否则不选中
+    const isCheckAll = data =>{
+      data.every( item => { item.checked })
+    }
+
+    // 数据优先：数据驱动
+    // 先考虑数据，在考虑渲染视图
+    function render(data) {
+      let list = document.querySelector("#list");
+      list.innerHTML = "";
+      data.forEach(item => {
+        let li = document.createElement("li");
+        li.innerHTML = `<input type="checkbox" class="check" ${item.checked ? 'checked' : ''}  />
+                        <span>${item.title}</span>
+                        ${item.collect ? '<a href="javascript:;" class="cancelCollect">取消收藏</a>' : '<a href="javascript:;" class="collect">收藏</a>'}
+                        <a href="javascript:;" class="remove">删除</a>`;
+        list.appendChild(li);
+      })
+      //控制列表数据全部选中，全选的复选框也选中，否则不选中
+      document.querySelector("#checkAll").checked = isCheckAll(data)
+      addEvent();
+    }
+    render(data);
+
+
+    function addEvent() {
+      let lis = document.querySelectorAll("#list li");
+      // console.log(lis);
+      lis.forEach((li, key) => {
+        li.onclick = e => {
+          // console.log(e.target);
+          switch (e.target.className) {
+            case 'check':
+              console.log("check", key);
+              // console.log(e.target.checked);
+              data[key].checked = e.target.checked;
+              break;
+            case 'collect':
+              console.log("collect")
+              data[key].collect = true;
+              break;
+            case 'remove':
+              console.log("remove");
+              data.splice(key, 1);
+              break;
+            case 'cancelCollect':
+              console.log("cancelCollect")
+              data[key].collect = false;
+              break;
+          }
+          // console.log(data);
+          render(data);
+        }
+      })
+    }
+
+    // 作业：全选全不选功能、删除选中元素功能、添加歌曲功能；（数据驱动视图）
+    //1、 全选,全不选
+    // let checkAll = document.getElementById("checkAll")
+    // checkAll.onclick = e =>{
+    //   let list = document.querySelectorAll("#list li");
+    //   if(e.target.checked){ //全选
+    //     list.forEach((li, key) => {
+    //       data[key].checked = true
+    //     })
+    //   }else{//全不选
+    //     list.forEach((li, key) => {
+    //       data[key].checked = false
+    //     })
+    //   }
+    //   console.log('全选or全不选', data)
+    //   render(data);
+    // }
+    //2、优化版本（全选，全不选）
+    document.querySelector("#checkAll").onclick = function(){
+      console.log(this.checked)
+      data.forEach(item => {
+        item.checked = this.checked;
+      })
+      render(data);
+    }
+
+    //删除选中元素
+    let removeAll = document.getElementById("removeAll")
+    removeAll.onclick = e =>{
+      // data.forEach((li, key) => {
+      //   if(data[key].checked){
+      //     data.splice(key, 1);
+      //   }
+      // })
+      let res = data.filter(item => !item.checked) //未选中的过滤出来
+      render(res);
+    }
+    
+
+    //添加元素
+    let addAll = document.getElementById("addAll")
+    addAll.onclick = e =>{
+      let info = document.getElementById("newInfo").value
+      let obj ={
+        id: data.length+1,
+        title: info,
+        checked: false,
+        collect: false 
+      }
+      data.push(obj)
+      render(data);
+    }
+
+  </script>
+</body>
+
+</html>

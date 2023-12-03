@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    //1、 在一个函数内部 function (){}
+    // 在一个代码块内部
+    // for(var a = 0; a < 3; a++) {
+    //     setTimeout(function() {
+    //         console.log("1++++",a);
+    //     }, 1000)
+    // }
+    //输出结果都为3
+
+    //2、ES5处理方法 -- 用函数制造块级作用域
+    // for(var a = 0; a < 3; a++) {
+    //     (function (a) {
+    //         setTimeout(function() {
+    //             console.log("2+++",a);
+    //         }, 1000)
+    //     })(a)
+    // }
+    //输出结果0,1,2
+
+    //3、ES6处理方法 -- 更加简单明了
+    // for(let a = 0; a < 3; a++) {
+    //     setTimeout(function() {
+    //         console.log("3+++",a);
+    //     }, 1000)
+    // }
+    //输出结果为：0,1,2
+
+    let s = new Set();
+    s.add([1]);
+    s.add([1]);
+    console.log(s , s.size);
+    // Set(2) {Array(1), Array(1)}   2
+
+
+</script>
+
+</html>
