@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 1.面向过程  
+    // 2.面向对象  研究对象---》属性及方法---》抽象成类（提高复用性）---》抽象成基类（父类）--》逻辑关系
+    // 组织逻辑关系
+    // 类  对象 
+
+    // 一、类
+    // ES5—构造函数模拟’类‘的概念
+    // function Person(name){
+    //     this.name = name;
+    //     this.height = "178cm";
+    //     this.age = 20;
+    // }
+    // let zhangsan1  = new Person("张三");  //new 实例化
+    // console.log('zhangsan1', zhangsan1)
+
+    // // 方法
+    // Person.prototype.fn = function(){
+    //     console.log("fn");
+    // }
+    // let zhangsan2  = new Person("张三");
+    // let lisi  = new Person("李四");
+    // zhangsan2.fn();
+
+    // ES6 class语法糖
+    // class Person {
+    //     constructor(name) {
+    //         this.name = name;
+    //         this.height = "178cm";
+    //         this.age = 20;
+    //     }
+    //     fn(){
+    //         console.log("fn");
+    //     }
+    // }
+    // console.log(typeof Person); //function
+
+    // let zhangsan  = new Person("张三");
+    // console.log(zhangsan); //Person {name: '张三', height: '178cm', age: 20}
+    // zhangsan.fn(); //fn
+
+    // let lisi  = new Person("李四");
+    // console.log(lisi);//Person {name: '李四', height: '178cm', age: 20}
+   
+
+    // 二、公有私有
+    // 公有私有属性
+    // ES5
+    // function Person(name){
+    //     let _weight = "130kg";
+    //     this.name = name;
+    //     this.height = "178cm";
+    //     this.age = 20;
+    // }
+
+    // ES2020  "#"修饰符 
+    // class Person{
+    //     #weight = "130kg";
+    //     height = "178cm";
+    //     constructor(name) {
+    //         this.name = name;
+    //         // this.height = "178cm";
+    //         this.age = 20;
+    //     }
+    //     getWeight(){
+    //         return this.#weight;
+    //     }
+    // }
+    // let zhangsan  = new Person("张三");
+    // // console.log(zhangsan.#weight);//拿不到--会报错
+    // console.log(zhangsan); // 公有方法获取私有属性
+
+    // 三、静态成员
+    // ES5
+//     function Person(name) {
+//         this.name = name;
+//     }
+//     Person.num = 10;
+//     let zhangsan = new Person("张三");
+//     console.log( zhangsan ); //Person {name: '张三'} 打印发现无num属性！！！
+//    console.log( zhangsan.num );  //错误的，undefined
+
+//     // ES6 static关键字
+//     class Person{
+//         constructor(name){
+//             this.name = name;
+//         }
+//         static num = 10;
+//         static fn(){
+//             console.log("fn");
+//         }
+//     }
+//    console.log( Person.fn );
+//    Person.fn();
+
+    // 要求一个类只能有一个实例。
+    // let instance;
+    // class Person{
+    //     static instance;
+    //     constructor(name){
+    //         if(!Person.instance){
+    //             Person.instance = this;
+    //         }else{
+    //             return Person.instance;
+    //         }
+    //         this.name = name;
+    //     }
+    // }
+    // let zhangsan = new Person("张三");//实例化对象1
+    // let lisi = new Person("李四"); //实例化对象2
+    // console.log(zhangsan,lisi) //Person {name: '张三'}  Person {name: '张三'}
+
+
+    // 四、访问器属性
+    // class Person{
+    //     constructor(){
+    //         // this.name = "张三";
+    //     }
+    //     get name(){
+    //         console.log("get");
+    //         return "张三";
+    //     }
+    //     set name(newValue){
+    //         console.log("set",newValue);
+    //     }
+    // }
+
+    // let zhangsan = new Person();
+    // console.log( zhangsan.name  ); //get
+    // zhangsan.name = "李四" //set
+
+
+// 五、继承
+// ES5
+// function Dad(){
+//     this.name = "张三";
+//     this.age = 20;
+// }
+
+// function Son(){
+//     Dad.call(this);
+// }
+
+// let zhanger = new Son();
+// console.log(zhanger);
+
+// ES6 extends
+// class Dad{
+//     constructor(name){
+//         this.name =  name;
+//     }
+//     fn(){
+//         console.log("fn");
+//     }
+// }
+// class Son extends Dad{
+//     constructor(name){
+//         super(name); //只能存在于子类当中
+//         this.age = 20;
+//         // console.log(super)  //不能单独使用
+//     }
+//     test(){
+//         console.log("test");
+//         super.fn(); //super也可存在子类--静态方法内
+//     }
+// }
+// let zhangsan = new Son("张三");
+// // console.log(zhangsan);
+// zhangsan.fn();
+
+// 类--抽象--》抽象基类  
+// 不允许直接被实例化
+// class AbstractPerson{
+//     constructor(){
+//         console.log(new.target); 
+//         // 打印如下：
+//         // class Person extends AbstractPerson{
+//         //     constructor(name){
+//         //         super();
+//         //         this.name = name;
+//         //     }
+//         // }
+//         if(new.target===AbstractPerson){
+//             throw new Error("AbstractPerson是抽象基类不能直接被实例化");
+//         }
+//         this.age = 20;
+//     }
+// }
+
+// class Person extends AbstractPerson{
+//     constructor(name){
+//         super();
+//         this.name = name;
+//     }
+// }
+
+// let p =  new Person("张三");
+// console.log(p);
+
+// 小试牛刀面试题
+//1. 小芒和小贤一样，原来也是一条可爱的小狗，可是突然有一天疯了(MadDog)，
+//   一看到 人就会每隔半秒叫一声(wow)地不停叫唤(yelp)。请根据描述，按示例的形式用代码来实现。
+// class Dog{
+//    wow(){
+//        console.log("wow");
+//    }
+//    yelp(){
+//        this.wow();
+//    }
+// }
+// // 继承 、原型 、setInterval
+// class MadDog extends Dog{
+//     yelp(){
+//         setInterval(() => {
+//             this.wow();
+//         }, 500);
+//     }
+// }
+// let xiaomang = new MadDog();
+// xiaomang.yelp();
+
+//2. 如何实现链式调用？
+// let p = new Promise();
+// p.then().then().then()..... 
+// class Person{
+//     fn(){
+//         console.log("fn");
+//         // return this;      //返还 this
+//         return new Person(); //返还实例化对象
+//     }
+// }
+// let zhangsan = new Person();
+// zhangsan.fn().fn().fn();
+
+// 3.`__proto__`  和 prototype 之前有什么关系？
+// function Person(name){
+//     this.name = name;
+// }
+// Person.prototype
+// console.log( Person.__proto__);
+// console.dir(Person);
+
+// let obj = {};
+// obj.__proto__.name = "张三";  //不规范
+// Object.setPrototypeOf(obj,{name:"张三"});
+// console.log(obj); // {}
+
+
+
+
+
+</script>
+
+</html>

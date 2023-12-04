@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body> 
+<script type="module">
+// 1、ESM   2、commonjs （nodejs）
+import  './a.js';
+import myfn,{c as e,b} from './a.js';
+myfn();
+import * as obj from './a.js';
+console.log(obj);
+
+console.log(myfn);
+// function test(){
+//     console.log(this);
+// }
+// test();
+
+// 按需加载
+document.onclick = function(){
+    // import myfn,{c as e,b} from './a.js';
+    import("./a.js").then(res=>{
+        console.log(res);
+    })
+}
+
+</script>
+</html>
