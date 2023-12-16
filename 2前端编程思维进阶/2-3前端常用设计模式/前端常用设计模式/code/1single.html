@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单例模式</title>
+</head>
+<body>
+    <button>点击</button>
+</body>
+<script>
+
+// window document  store
+// 单例模式
+ 
+class Person{
+    static instance;
+    constructor(name){
+        if(!Person.instance){
+            Person.instance = this;
+        }else{
+            return Person.instance;
+        }
+        this.name = name;
+    }
+}
+
+let zhangsan  = new Person("张三");
+let lisi  = new Person("李四");
+console.log(zhangsan===lisi);
+
+let obj1 = {
+    name:"张三",
+    age:20
+}
+let obj2 = {
+    name:"张三",
+    age:20
+}
+console.log(obj1===obj2);//false 地址不一样
+
+// class Perosn{
+//     constructor(name){
+//         this.name = name;
+//     }
+// }
+// class Animal{
+//     constructor(name){
+//         this.name = name;
+//     }
+// }
+// ....
+
+// // 通用单例
+function createInstance(fn){
+    let instance;
+    return function(...args){
+        if(!instance){
+            instance = new fn(...args);//实例化一下
+        }
+        return instance
+    }
+}
+
+// let singlePerson = createInstance(Perosn);
+// let zhansan  = new singlePerson("张三");
+// let lisi  = new singlePerson("李四");
+// console.log(zhansan===lisi);
+
+
+// 单例模式的应用 【1、一个实例只能显示一次，2、只能有一个实例】
+class Dialog{
+    constructor(){
+        let dialog = document.createElement("div");
+        this.dialog = dialog;
+        this.dialog.style.display = "none";
+        this.isShow = false;
+    }
+    showDialog(){
+        if(!this.isShow){
+            this.dialog.innerHTML = "对话框";
+            document.body.appendChild(this.dialog);
+            this.dialog.style.display = "block";
+            this.isShow = true;
+        }else{
+            console.log("已经显示了一个")
+        }
+    }
+}
+let createInstanceFn = createInstance(Dialog);
+
+let dialog1 = new createInstanceFn(); //一个实例只能显示一次
+// let dialog2 = new createInstanceFn();
+document.querySelector("button").onclick = function(){
+    dialog1.showDialog();   //只能有一个实例
+    // dialog2.showDialog();
+}
+
+
+</script>
+</html>

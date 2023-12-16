@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>适配器—混入模式</title>
+</head>
+<body>
+    
+</body>
+<script>
+// 混入模式
+class Yase{
+    constructor(){
+        this.name = "亚瑟";
+    }
+}
+
+class Skills{
+    hurt(){
+        console.log("造成伤害")
+    }
+    walk(){
+        console.log("走路");
+    }
+    release(){
+        console.log("释放技能");
+    }
+}
+
+
+// let yase = new Yase();
+// 混入模式
+function mixin(receivingClass,givingClass){
+    if(typeof arguments[2] !== "undefined"){
+        for(let i=2;i<arguments.length;i++){
+            receivingClass.prototype[arguments[i]]= givingClass.prototype[arguments[i]];
+        }
+    }
+}
+mixin(Yase,Skills,"hurt","walk","release");
+
+let yase = new Yase();
+console.log(yase);
+yase.release();
+
+</script>
+</html>

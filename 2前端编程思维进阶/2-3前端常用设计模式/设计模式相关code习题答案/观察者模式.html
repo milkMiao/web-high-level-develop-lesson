@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>点击</button>
+</body>
+<script>
+// 观察者模式 （自定义事件）:定义一个对象与其他对象之间的一种依赖关系，当对象发生某种变化的时候，依赖它的其它对象都会得到更新。解耦 、延迟执行、一对多的依赖关系；
+// 发布订阅 ：三者关系。
+// let obj ={
+//     fn(){
+//         console.log("fn");  
+//     }
+// }
+// document.querySelector("button").addEventListener("click",function(){
+//     // console.log("fn1");
+//     obj.fn();
+// })
+// document.querySelector("button").addEventListener("click",function(){
+//     // console.log("fn1");
+//     obj.fn();
+// })
+
+class Event{
+    constructor(){
+        // 保存事件 
+        this.handles = {};
+    }
+    // 添加事件,监听 、观察
+    addEvent(eventName,fn){
+        // {'myevent':[fn1,fn2....],'myevent2':[fn1,fn2..]}
+        if(typeof this.handles[eventName] ===  "undefined"){
+            this.handles[eventName] = [];   
+        }
+        this.handles[eventName].push(fn);
+    }
+    // 触发
+    trigger(eventName){
+        this.handles[eventName].forEach(v=>{
+            v();
+        })
+    }
+    // 移除事件removeEvent (eventName,fn）;
+    removeEvent(eventName,fn){
+        if(!(eventName in this.handles)){
+            return ;
+        }
+        for(let i=0;i<this.handles[eventName].length;i++){
+            if(this.handles[eventName][i]===fn){
+                this.handles[eventName].splice(i,1);
+                break;
+            }
+        }
+    }
+
+}
+
+let obj1 = {
+    fn(){
+        console.log("fn111");
+    }
+}
+let obj2 = {
+    fn(){
+        console.log("fn222");
+    }
+}
+let myevent = new Event();
+// 添加事件(没有执行)
+myevent.addEvent("myevent",obj1.fn);
+myevent.addEvent("myevent",obj2.fn);
+// myevent.removeEvent("myevent",obj1.fn);  //移除obj2.fn
+setTimeout(()=>{
+    myevent.trigger("myevent");
+},1000)
+
+// vue2  eventBus ：总线模式。 // $bus =  new Vue();   $bus.on() //添加事件  $bus.emit("eventName",fn); //触发
+// 作业：1.移除事件removeEvent(eventName,fn）;
+
+
+
+
+
+    
+</script>
+</html>

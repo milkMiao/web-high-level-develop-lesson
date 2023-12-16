@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>观察者模式</title>
+</head>
+<body>
+    <div class="box">
+        111
+    </div>
+</body>
+<script>
+document.querySelector(".box").addEventListener("click",function(){
+    console.log("click1");
+})
+// document.querySelector(".box").addEventListener("click",function(){
+//     console.log("click2");
+// })
+
+let obj1 = {
+    fn1(){
+        console.log("fn1更新");
+    }
+}
+let obj2 = {
+    fn2(){
+        console.log("fn2更新");
+    }
+}
+
+// 管理事件类
+class MyEvent{
+    constructor(){
+        this.handles = {};
+    }
+    //添加事件，监听，观察
+    addEvent(eventName,fn){
+        // {myevent1:[fn1,fn2...],myevent2:[fn1,fn2...]}
+        if(typeof this.handles[eventName]==="undefined"){
+            this.handles[eventName] = [];
+        }
+        this.handles[eventName].push(fn);
+    }
+    //触发
+    trigger(eventName){
+        if(!(eventName in this.handles)){
+            return ;
+        }
+        this.handles[eventName].forEach(fn=>{
+            fn();
+        })
+    }
+    //移除事件 removeEvent
+    removeEvent(eventName,fn){
+        if(!(eventName in this.handles)){//不存在的事件，直接返回
+            return ;
+        }
+        for(let i=0; i< this.handles[eventName].length; i++){
+            if(this.handles[eventName][i] === fn){
+                this.handles[eventName].splice(i,1);
+                break;
+            }
+        }
+    }
+}
+
+let eventObj = new MyEvent();
+eventObj.addEvent("myevent",obj1.fn1);
+eventObj.addEvent("myevent",obj2.fn2);
+
+eventObj.removeEvent("myevent",obj2.fn2)
+console.log(eventObj)
+
+// setTimeout(()=>{
+//     eventObj.trigger("myevent")
+// },1000)
+
+//eventBus 总线模式， vue2
+//  $bus = new Vue()  
+//  $bus.on() 添加事件 
+//  $bus.emit('enentname', fn) //触发
+// 作业：1.实现一个 removeEvent 可以删除指定的指定以事件。
+//      2.通过自定义事件管理init方法，在登录时候延迟执行。
+
+
+
+</script>
+</html>

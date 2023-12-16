@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>装饰器模式</title>
+</head>
+<body>
+    
+</body>
+<script>
+//装饰者模式： 功能扩展 extends 
+
+class Yase{
+    constructor(){
+        this.name = "亚瑟";
+    }
+    release(){
+        console.log("释放技能");
+    }
+}
+
+let yase = new Yase();
+// yase.release();
+
+function hurt(){
+    console.log("造成100点伤害");
+}
+function walk(){
+    console.log("走");
+}
+Function.prototype.Decorator = function(fn){
+    let _this = this;
+    return function(){
+        _this();
+        fn();
+    }
+}
+// yase.release.Decorator(hurt)();
+// 装饰者链
+yase.release.Decorator(hurt).Decorator(walk)();
+
+
+</script>
+</html>
