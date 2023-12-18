@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./myjq.js"></script>
+</head>
+<body>
+    <div class="box" style="background: red;">111</div>
+    <div class="box" style="background: blue;">222</div>
+    <button>点击</button>
+</body>
+<script>
+    // jq 
+    // $(".box").click(function(){
+    //     console.log("click");
+    // })
+ 
+//     $(document.querySelector("div")).click(()=>{
+//     console.log(111);
+// })
+
+// $(function(){
+//     console.log("加载完毕");
+// })
+    
+
+// let res =  $(".box");
+// console.log(res);
+// $(".box").click(()=>{
+//     console.log("click");
+// })
+// $(document.querySelectorAll(".box")).click(()=>{
+//     console.log(123);
+// })
+
+// $(".box").on("mouseover mousedown",function(){
+//     console.log("123");
+// })
+// $(".box").on("mouseover",function(){
+//     console.log("mouseover");
+// }).on("mousedown",function(){
+//     console.log("mousedown");
+// })
+// let res =  $(".box").eq(0);
+// // console.log(res.on);
+// // res.on();
+// res.on("click",function(){
+//     console.log(123);
+// })
+
+// 回滚
+// $("div").eq(0).eq(0).end().end().on("click",function(){
+//     console.log(123);
+// })
+
+// let res = $("div").eq(0).eq(0);
+// console.log(res);
+
+    
+// $("div").css({width:"100px",height:"100px",background:"blue"});
+// let res =  $("div").css("background");
+// console.log(res);
+
+// $("div").css("background","black");
+// $("div").css({width:100,height:"100px",background:"red",opacity:.3});
+
+$.cssHooks.wh = {
+    get(ele){
+        console.log("get",ele);
+        return getComputedStyle(ele,null)['width'] + "-" + getComputedStyle(ele,null)['height'];
+    },
+    set(ele,styleValue){
+        console.log("set",ele,styleValue);
+        ele.style['width'] = styleValue;
+        ele.style['height'] = styleValue;
+    }
+}
+// $("div").css("wh","300px");
+// let res =  $("div").css("wh");
+// console.log(res);
+$("div").css("wh","100px");
+
+// 作业：实现一个aniamte ; 不基于库或者插件
+$("button").click(function(){
+    //属性： slow fast nomal  
+    //    $("div").animate({width:"300px"},2000,function(){
+    //        console.log("运动完成");
+    //    });
+    $("div").animate({width:"300px"},function(){
+        console.log("运动完成");
+    })
+})
+
+</script>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原本的jq</title>
+    <script src="./jquery.js"></script>
+</head>
+<body>
+    <div class="box" style="background: red; width:100px">111</div>
+    <!-- <div class="box" style="background: blue;">222</div> -->
+    <button>点击</button>
+</body>
+<script>
+// 原生js
+document.querySelector(".box").onclick = function(){
+    console.log("click");
+}
+
+// jq 
+$(".box").click(function(){
+    console.log("click");
+})
+
+// 一、如何实现选择器 及click方法？
+// $(".box").click()  
+// obj.name
+
+// // 二、选择器的多种情况处理？？(1.参数不同。2多个元素的处理情况);
+// $(document.querySelector("div")).click(()=>{
+//     console.log(111);
+// })
+
+// $(".box").click(function(){
+//     console.log("click");
+// })
+
+// $(function(){
+//     console.log("加载完毕");
+// })
+
+//三、 多个元素 多个事件的处理？？
+
+// $(".box").on("click",function(){
+//     console.log("click");
+// })
+// $(".box").on("mouseover mousedown",function(){
+//     console.log("123");
+// })
+//   多种情况处理  ？--> 多种情况间的异同区分开 ，判断，处理。 多个元素、事件：循环绑定
+// 链式操作 ：return this；
+// $(".box").on("mouseover",function(){
+//     console.log("mouseover");
+// }).on("mousedown",function(){
+//     console.log("mousedown");
+// })
+
+// 四、链式操作 1.返还this及返还实例化对象
+// $("div").on("click",function(){
+//     console.log(111);
+// }).eq(0).on("click",function(){
+//     console.log(222);
+// })
+// $("div").eq(0).on("click",function(){
+//     console.log(111);
+// })
+// let res = $("div").get(0);
+// console.log(res);
+// 2.链式回滚 end 
+
+// $("div").eq(0).eq(0).end().end().on("click",function(){
+//     console.log(123);
+// })
+
+// let res = $("div").eq(0).eq(0);
+// console.log(res);
+
+// 五、css方法实现// 1.对象传入 修改样式
+// $("div").css({width:"100px",height:"100px",background:"red"});
+// 2.字符串参数
+// $("div").css("background","blue");
+// 3.获取样式
+// let res =  $("div").css("background");
+// console.log(res);
+// 不定参
+// 区分特新分开处理（多次判断）;
+
+// 六、提高扩展性 wh :"px"
+// $.cssNumber.wh = true;
+// $("div").css({width:100,height:"100px",background:"red",opacity:.3});
+
+// $.cssHooks.wh = {
+//     get(ele){
+//         console.log("get",ele);
+//         return getComputedStyle(ele,null)['width'] + "-" + getComputedStyle(ele,null)['height'];
+//     },
+//     set(ele,styleValue){
+//         console.log("set",ele,styleValue);
+//         ele.style['width'] = styleValue;
+//         ele.style['height'] = styleValue;
+//     }
+// }
+// $("div").css("wh","300px");
+// let res =  $("div").css("wh");
+// console.log(res);
+// $("div").css("wh","300px");
+
+//作业： 实现一个animate方法，不基于库，插件
+// $("button").on("click",function(){
+//     $(".box").animate({width:"600px"},function(){
+//         console.log("运动完成");
+//     });
+// })
+
+
+
+
+
+</script>
+</html>
