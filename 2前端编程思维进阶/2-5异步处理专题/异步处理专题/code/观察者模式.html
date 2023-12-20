@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position:absolute;
+            left: 0px;
+            top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <!-- 观察者模式参考链接：https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget -->
+    <!-- <button>点击</button> -->
+
+</body>
+<script>
+// EventTarget
+// let eventObj = new EventTarget();
+
+// function fn1(){
+//     console.log("fn1");
+// }
+
+// function fn2(){
+//     console.log("fn2");
+// }
+// eventObj.addEventListener("myEvent",fn1);
+
+// eventObj.addEventListener("myEvent",fn2);
+
+// document.querySelector("button").onclick = function(){
+//     eventObj.dispatchEvent(new CustomEvent("myEvent"));
+// }
+
+//观察者模式
+let eventObj = new EventTarget();
+let num = 1;
+function move(ele,dir,target){
+    let start = parseInt(getComputedStyle(ele,null)[dir]);
+    // console.log(start)
+    let speed = 5 * (target>start?1:-1);
+    setTimeout(()=>{
+        start+= speed;
+        if(start===target){
+            // console.log("运动完成");
+            // cb && cb()
+            eventObj.dispatchEvent(new CustomEvent("myEvent"+num)); //派遣 dispatch
+            num++;
+        }else{
+            ele.style[dir] = start + "px";
+            move(ele,dir,target);
+        }
+    },10)
+}
+
+// 通过自定义事件解决回调地狱问题
+let ele = document.querySelector(".box");
+move(ele,"left",300)
+eventObj.addEventListener("myEvent1",function(){
+    move(ele,"top",300)
+})
+eventObj.addEventListener("myEvent2",function(){
+    move(ele,"left",0)
+})
+eventObj.addEventListener("myEvent3",function(){
+    move(ele,"top",0)
+})
+eventObj.addEventListener("myEvent4",function(){
+    console.log("运动完成");
+})
+
+
+
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas width="500" height="500"></canvas>
+</body>
+<script>
+    // let img = new Image();
+    // img.src = "https://img2.baidu.com/it/u=3228549874,2173006364&fm=26&fmt=auto&gp=0.jpg";
+    let canvas =  document.querySelector("canvas");
+    let context = canvas.getContext("2d");
+    // img.onload = function(){
+    //     context.drawImage(img,0,0);
+    // }
+
+    function loadImg() {
+        // return new Promise((resolve, reject) => {
+        //     let img = new Image();
+        //     img.src = "https://img2.baidu.com/it/u=3228549874,2173006364&fm=26&fmt=auto&gp=0.jpg";
+        //     img.onload = function () {
+        //         resolve(img);
+        //     }
+        //     img.onerror = function(){
+        //         reject("图片加载失败");
+        //     }
+        // })
+        return new Promise((res, rej) => {
+            let img = new Image();
+            img.src = src;
+            img.onload = function () {
+                res(img);
+            }
+            img.onerror = function(){
+                rej("err");
+            }
+        })
+    }
+
+    // loadImg().then(img=>{
+    //     context.drawImage(img,0,0);
+    // }).catch(err=>{
+    //     console.log(err);
+    // })
+
+    // 作业：把方块及loadimg 函数做async/await的改写 。
+    let src = 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg';
+    async function fn(src){
+        try{
+            let img = await loadImg(src);
+            context.drawImage(img, 0, 0);
+        }catch(err){
+            console.log(err);
+        }
+    }
+    fn(src);
+
+</script>
+
+</html>

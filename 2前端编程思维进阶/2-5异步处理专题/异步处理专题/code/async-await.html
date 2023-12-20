@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let fn1 = function () {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                console.log("fn1");
+                resolve(111);
+            }, 2000)
+        })
+    }
+    let fn2 = function () {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log("fn2");
+                resolve(2222);
+                // reject("err");
+            }, 1000)
+        })
+    }
+
+    // fn1().then(res=>{
+    //     console.log(res);
+    //     return fn2();
+    // }).then(res=>{
+    //     console.log(res);
+    // })
+
+    // async function fn(){
+    //     await fn1();
+    //     await fn2();
+    // }
+
+    // async function fn() {
+    //     try {
+    //         let res1 = await fn1();
+    //         console.log(res1);
+    //         let res2 = await fn2();
+    //         console.log(res2);
+    //         console.log("333")
+    //     } catch {
+    //         console.log("error");
+    //     }
+    // }
+    // fn()
+
+    async function fn(){
+        return "value";
+    }
+    console.log(fn());
+
+    let arrFn = [fn1,fn2];
+    arrFn.forEach(async fn=>{
+       await fn();
+       await fn();
+    })
+
+    async function fn(){
+       for(let i=0;i<arrFn.length;i++){
+           await arrFn[i]();
+       }
+    }
+    fn();
+
+    // 作业：把方块及loadimg 函数做async/await的改写 。
+    
+
+
+</script>
+
+</html>

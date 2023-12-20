@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position:absolute;
+            left: 0px;
+            top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+</body>
+<script>
+// 回调地狱： 为了实现某些逻辑 ，出现回调函数的层层嵌套。
+
+// function test(cb){
+//     console.log(111);
+//     cb && cb();
+// }
+
+// test(function(){
+//     test(function(){
+//         test(function(){
+//             console.log("执行完成了");
+//         })
+//     })
+// })
+
+//运动小方块，移动
+function move(ele,dir,target,cb){
+    let start = parseInt(getComputedStyle(ele,null)[dir]);
+    // console.log(start)
+    let speed = 5 * (target>start?1:-1); //移动像素
+    setTimeout(()=>{
+        start+= speed;
+        if(start===target){
+            // console.log("运动完成");
+            cb && cb() //递归的出口，不然会一直运动下去
+        }else{
+            ele.style[dir] = start + "px";
+            move(ele,dir,target,cb);//递归调用
+        }
+    },10)
+}
+let ele = document.querySelector(".box");
+move(ele,'left',300,function(){
+    move(ele,'top',300,function(){
+        move(ele,'left',0,function(){
+            move(ele,'top',0,function(){
+                console.log("运动完成");
+            })
+        })
+    })
+});
+
+
+
+</script>
+</html>

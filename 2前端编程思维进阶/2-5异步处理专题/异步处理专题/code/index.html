@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+// console.log(111);
+// console.log(222);
+// console.log(333);
+console.log(1111);
+
+//时间过长—会采取异步任务处理
+// callback 回调函数   延迟1s
+function test(cb){
+    setTimeout(()=>{
+        console.log("setTimeout");
+        cb && cb();
+    },1000)
+}
+//cb回调函数，作为参数传入Test内
+test(function(){
+    console.log(2222);
+});
+// 111 ， setTimeout， 222
+
+
+
+
+
+</script>
+</html>

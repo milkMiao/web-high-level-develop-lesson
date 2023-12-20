@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+</body>
+<script>
+    function move(ele, dir, target) {
+        // return new Promise(resolve => {
+        //     let start = parseInt(getComputedStyle(ele, null)[dir]);
+        //     let speed = 2 * (target - start) >= 0 ? 1 : -1;
+        //     setTimeout(() => {
+        //         start += speed;
+        //         ele.style[dir] = start + "px";
+        //         if (Math.abs(start - target) < 5) {
+        //             // console.log("运动完成");
+        //             resolve();
+        //         } else {
+        //             move(ele, dir, target);
+        //         }
+        //     }, 10);
+        // })
+        return new Promise(resolve => {
+            function fn() {
+                let start = parseInt(getComputedStyle(ele, null)[dir]);
+                let speed = 2 * (target - start) >= 0 ? 1 : -1;
+                setTimeout(() => {
+                    start += speed;
+                    ele.style[dir] = start + "px";
+                    if (Math.abs(start - target) < 5) {
+                        // console.log("运动完成");
+                        resolve();
+                    } else {
+                        fn();
+                    }
+                }, 10);
+            }
+            fn();
+        })
+    }
+    let ele = document.querySelector(".box");
+    // promise改造：链式调用；
+    async function fn() {
+        try {
+            await move(ele, "left", 300);
+            await move(ele, "top", 300);
+            await move(ele, "left", 0);
+            await move(ele, "top", 0);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    fn();
+
+
+    // move(ele, "left", 300).then(() => {
+    //     return move(ele, "top", 300)
+    // }).then(() => {
+    //     return move(ele,"left",0);
+    // }).then(()=>{
+    //     return move(ele,"top",0);
+    // }).then(()=>{
+    //     console.log("完成1");
+    // })
+// move(ele,"left",300);
+// move(ele,"top",300);
+// move(ele,"left",300,()=>{
+//     console.log("向右运动完成");
+//     move(ele,"top",300,()=>{
+//         console.log("向下运动完成");
+//         move(ele,"left",0,()=>{
+//             console.log("向左运动完成");
+//             move(ele,"top",0,()=>{
+//                 console.log("运动完成");
+//             })
+//         })
+//     })
+// })
+
+
+
+</script>
+
+</html>

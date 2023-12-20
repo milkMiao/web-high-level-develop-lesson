@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+</body>
+<script>
+    // 回调地狱： 为了实现某些逻辑 ，出现回调函数的层层嵌套。
+
+    // function test(cb){
+    //     console.log(111);
+    //     cb && cb();
+    // }
+
+    // test(function(){
+    //     test(function(){
+    //         test(function(){
+    //             console.log("执行完成了");
+    //         })
+    //     })
+    // })
+
+
+    function move(ele, dir, target, cb) {
+        return new Promise(resolve => {
+            function fn() {
+                let start = parseInt(getComputedStyle(ele, null)[dir]);
+                // console.log(start)
+                let speed = 5 * (target > start ? 1 : -1);
+                setTimeout(() => {
+                    start += speed;
+                    if (start === target) {
+                        // console.log("运动完成");
+                        // cb && cb()
+                        resolve("运动完成");
+                    } else {
+                        ele.style[dir] = start + "px";
+                        // move(ele, dir, target, cb);//会出现无法打印数据的情况 ？？？
+                        fn();
+                    }
+                }, 10)
+            }
+            fn();
+        })
+    }
+    let ele = document.querySelector(".box");
+    // move(ele, 'left', 300).then(res => {
+    //     // console.log("运动完成");
+    //     return  move(ele,'top',300); //return 一个promise
+    // }).then(res=>{
+    //     return  move(ele,'left',0);
+    // }).then(res=>{
+    //     return move(ele,'top',0)
+    // }).then(res=>{
+    //     console.log(res);
+    // })
+
+    //async.await改写如上方法：小方块运动链式调用改造
+     async function fn() {
+        try {
+            await move(ele, "left", 300);
+            await move(ele, "top", 300);
+            await move(ele, "left", 0);
+            await move(ele, "top", 0);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    fn();
+
+
+</script>
+
+</html>
